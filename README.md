@@ -20,6 +20,7 @@
  * 불필요한 패킷이 입력되는 문제가 있는데, 최대한 잡아내고 있습니다.
  * 현재 개행이 안되는데, 기능을 곧 추가 예정입니다.
 
+[다운로드 페이지](https://github.com/kimyearho/FF14_ScraperChat/releases/tag/v0.1)
 <br/>
 
 # 저작권
