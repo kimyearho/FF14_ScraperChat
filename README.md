@@ -1,4 +1,4 @@
-# FINAL FANTASY XIV - Scraper Chat
+# FINAL FANTASY XIV - Scraper Chat v0.1
 > 파이널판타지14 글로벌 한국어 채팅 프로그램 입니다.
 <br/>
 
