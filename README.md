@@ -2,7 +2,7 @@
 > 파이널판타지14 글로벌 한국어 채팅 프로그램 입니다.
 <br/>
 
-![Imgur](http://i.imgur.com/x1E7dGc.png)
+![Imgur](http://i.imgur.com/mpDM9TW.png)
 ![Imgur](http://i.imgur.com/9KZky4h.jpg)
 
 ## 기능정의:
