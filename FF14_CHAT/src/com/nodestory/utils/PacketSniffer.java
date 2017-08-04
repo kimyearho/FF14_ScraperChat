@@ -107,10 +107,9 @@ public class PacketSniffer {
 			txtMsg.appendText(description + " 연결 성공! \n\n");
 			txtMsg.appendText("# 공지사항\n");
 			txtMsg.appendText("=============================================\n");
-			txtMsg.appendText("1. 프로그램은 수정 및 재배포 금지 (엄격근엄진지)\n");
-			txtMsg.appendText("2. 프로그램 사용으로 발생하는 책임은 본인에게 있습니다. \n");
-			txtMsg.appendText("3. 가끔 채팅창에 이상한 글자가 찍혀도 당황하기없긔\n");
-			txtMsg.appendText("4. 마지막으로 프로그램을 사용해주셔서 감사합니다.\n");
+			txtMsg.appendText("1. 프로그램 사용으로 발생하는 책임은 본인에게 있습니다. \n");
+			txtMsg.appendText("2. 버그 및 문의사항은 github에 남겨주세요. \n");
+			txtMsg.appendText("https://github.com/kimyearho/FF14_ScraperChat \n");
 			txtMsg.appendText("=============================================\n");
 			txtMsg.appendText("\t\t\t<듀란달 / Zunk Force> \n\n");
 			Platform.runLater(new Runnable() {
