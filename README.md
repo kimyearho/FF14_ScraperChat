@@ -3,7 +3,7 @@
 <br/>
 
 ![Imgur](http://i.imgur.com/x1E7dGc.png)
-![Imgur](http://i.imgur.com/LtaUIZB.png)
+![Imgur](http://i.imgur.com/9KZky4h.jpg)
 
 ## 기능정의:
 
