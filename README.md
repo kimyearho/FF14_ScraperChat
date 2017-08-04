@@ -20,7 +20,20 @@
  * 불필요한 패킷이 입력되는 문제가 있는데, 최대한 잡아내고 있습니다.
  * 현재 개행이 안되는데, 기능을 곧 추가 예정입니다.
 
-현재 실행관련 문제가 있어 조속히 처리하여 실행파일을 새로 업로드 하겠습니다.
+<br/>
+
+## 설치
+
+1. [WinPacp 다운로드(필수)](https://www.winpcap.org/install/default.htm)
+2. [Scraper Chat 다운로드](https://github.com/kimyearho/FF14_ScraperChat/releases/tag/v0.1.1)
+
+<br/>
+
+## 주의사항
+
+네트워크 환경 어댑터 설정에 사용하는 어댑터외에는 비활성화 해주세요.
+![Imgur](http://i.imgur.com/wUe12OZ.png)
+
 <br/>
 
 # 저작권
@@ -28,4 +41,3 @@
 기재되어있는 회사명 · 제품명 · 시스템 이름은 해당 소유자의 상표 또는 등록 상표입니다.
 
 (C) 2010 - 2017 SQUARE ENIX CO., LTD All Rights Reserved.
-```
