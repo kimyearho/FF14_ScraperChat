@@ -16,3 +16,11 @@
  * 장시간 실행 중일때 프로그램이 뻗는 버그가 있음. (외부 솔루션 이슈)
  * 불필요한 패킷이 입력되는 문제가 있는데, 최대한 잡아내고 있습니다.
  * 현재 개행이 안되는데, 기능을 곧 추가 예정입니다.
+
+
+
+```javascript
+기재되어있는 회사명 · 제품명 · 시스템 이름은 해당 소유자의 상표 또는 등록 상표입니다.
+
+(C) 2010 - 2017 SQUARE ENIX CO., LTD All Rights Reserved. Korea Published by EYEDENTITY MOBILE.
+```
