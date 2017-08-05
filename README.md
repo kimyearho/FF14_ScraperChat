@@ -26,6 +26,7 @@
 
 1. [WinPacp 다운로드(필수)](https://www.winpcap.org/install/default.htm)
 2. [Scraper Chat 다운로드](https://github.com/kimyearho/FF14_ScraperChat/releases/tag/v0.1.1)
+3. 압축해제 후 scraper.exe로 설치하고, jnetpcap.dll을 c:\Windows/System32 위치로 복사
 
 <br/>
 
