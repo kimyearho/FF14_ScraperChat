@@ -318,7 +318,8 @@ public class PacketSniffing {
 	/**
 	 * ¼­¹ö·Î º¸³»´Â ¸Ş½ÃÁö(»ç¿ëÀÚ°¡ ÀÔ·ÂÇÑ ¸Ş½ÃÁö)
 	 * 
-	 * @param packet - ÆĞÅ¶ ¹ÙÀÌÆ®¹è¿­
+	 * @param packet
+	 *            - ÆĞÅ¶ ¹ÙÀÌÆ®¹è¿­
 	 * @return - ÆÄ½ÌµÈ ¸Ş½ÃÁö
 	 */
 	public String sendFromServer(byte[] packet) {
@@ -327,37 +328,37 @@ public class PacketSniffing {
 		String c_Packet = ByteArrays.toHexString(packet, " ").replace(" ", "").replaceAll("00", "");
 
 		try {
-			
+
 			// ÆĞÅ¶À» UTF-8·Î º¯È¯ÇÏ¿© ¹®ÀÚ¿­·Î ¸®ÅÏ¹Ş´Â´Ù.
 			String msg = new String(packet, "UTF-8");
-			
+
 			// ÇÊ¿ä¾ø´Â ºÎºĞ ÆÄ½Ì
 			String parseMsg = msg.substring(msg.lastIndexOf("\\"), msg.length()).replace("\\", "").trim();
-			
+
 			// ÆĞÅÏ1: ÇÑ±Û,¿µ¹®,¼ıÀÚ,Æ¯¹®ÀÌ Æ÷ÇÔµÇ¾ú´ÂÁö Ã¼Å©ÇÑ´Ù.
-			Pattern p = Pattern.compile("(^[¤¡-¤¾|¤¿-¤Ó|°¡-ÆR|0-9|a-z|A-Z|\\s|!@#$%^&*()+-.]*$)");
+			Pattern p = Pattern.compile("(^[¤¡-¤¾|¤¿-¤Ó|°¡-ÆR|0-9|a-z|A-Z|\\s|!@#$%^&*?()+-.]*$)");
 			Matcher m = p.matcher(parseMsg);
-			
+
 			// ÆĞÅÏ1 °Ë»ö
 			if (m.find()) {
 				// ÆĞÅÏ ¸ÅÄªÀÌ ¼º°ø Çß´Ù¸é
-				
+
 				// ÆĞÅÏ2: ¸ÅÄªÀÌ ¼º°øÇÑ ÆĞÅÏ ¹®ÀÚ¿­¿¡ ÇÑ±ÛÀÌ ¹İµå½Ã Æ÷ÇÔµÇ´ÂÁö Ã¼Å©
 				Pattern p1 = Pattern.compile(".*[¤¡-¤¾|¤¿-¤Ó|°¡-ÆR]");
 				Matcher m1 = p1.matcher(m.group());
 				if (m1.find()) {
 					// ÇÑ±ÛÀÌ ¹İµå½Ã Æ÷ÇÔµÈ´Ù¸é
-					
+
 					// ¸®ÅÏ ¹®ÀÚ´Â ÆĞÅÏ1 ¹®ÀÚ¿­À» ÁÖÀÔÇÑ´Ù.
 					// º¸³»´Â ¸Ş½ÃÁö°¡ ÆÄÆ¼¿Í ºÎ´ë ÆĞÅ¶ÀÌ µ¿ÀÏÇÏ¹Ç·Î ±âÁØÀ» Á¤ÇÑ´Ù.
-					if(c_Packet.indexOf("035c") > -1) {
+					if (c_Packet.indexOf("035c") > -1) {
 						// FC
-						message = "[ºÎ´ë]<Me> : " + m.group() + "\n";
+						message = "[ºÎ´ë]<³ª>: " + convertInlineMsg(m.group()) + "\n";
 					} else {
 						// ÆÄÆ¼
-						message = "[ÆÄÆ¼]<Me> : " + m.group() + "\n";
+						message = "[ÆÄÆ¼]<³ª>: " + convertInlineMsg(m.group()) + "\n";
 					}
-					
+
 				}
 
 			}
@@ -368,18 +369,59 @@ public class PacketSniffing {
 
 		return message;
 	}
-	
+
 	/**
 	 * Å¬¶óÀÌ¾ğÆ®·Î º¸³»´Â ¸Ş½ÃÁö(´Ù¸¥ »ç¿ëÀÚ°¡ ÀÔ·ÂÇÑ ¸Ş½ÃÁö)
 	 * 
-	 * @param packet - ÆĞÅ¶ ¹ÙÀÌÆ®¹è¿­
+	 * @param packet
+	 *            - ÆĞÅ¶ ¹ÙÀÌÆ®¹è¿­
 	 * @return - ÆÄ½ÌµÈ ¸Ş½ÃÁö
 	 */
 	public String resiveFromClient(byte[] packet) {
 		System.out.println(ByteArrays.toHexString(packet, " "));
 		return null;
 	}
-	
+
+	/**
+	 * <pre>
+	 *     ÀÔ·ÂÇÑ ¸Ş½ÃÁöÀÇ ¹®ÀÚ¿­À» ÀÏÁ¤Å©±â¸¶´Ù °³ÇàÀ» ³Ö¾î¼­ ¹®ÀåÀ» ¿Ï¼ºÇÑ´Ù.
+	 *     ¹®ÀÚ¿­ÀÇ ±æÀÌ°¡ ±âÁØÄ¡°¡ ¾ÈµÈ´Ù¸é ±×´ë·Î Ãâ·ÂÇÑ´Ù.
+	 * </pre>
+	 * 
+	 * @param msg - ÀÔ·ÂÇÑ ¹®ÀÚ¿­
+	 * @return sb - °³ÇàÀÌ µé¾î°£ ¹®ÀÚ¿­
+	 */
+	public String convertInlineMsg(String msg) {
+
+		int len = 28;
+		int m_size = msg.length();
+
+		int count = 0;
+
+		StringBuffer sb = new StringBuffer();
+		StringBuffer sb2 = new StringBuffer();
+
+		if (m_size >= len) {
+			for (int i = 0; i < m_size; i++) {
+				sb.append(msg.charAt(i));
+				// System.out.println("("+len+") (" + sb.length() + ") " + sb.toString());
+				if (sb.length() >= len) {
+					sb2.append(sb.toString() + "\n");
+					sb = new StringBuffer();
+					if (count == 0) {
+						count += 1;
+
+						len = 35;
+					}
+				}
+			}
+		} else {
+			sb2.append(msg);
+		}
+
+		return sb2.toString();
+	}
+
 	/**
 	 * hex ÄÚµå¸¦ ¹ÙÀÌÆ® ¹è¿­·Î º¯È¯ÇÑ´Ù.
 	 * 
@@ -395,6 +437,5 @@ public class PacketSniffing {
 		}
 		return data;
 	}
-
 
 }
