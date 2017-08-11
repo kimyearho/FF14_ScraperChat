@@ -368,7 +368,18 @@ public class PacketSniffing {
 
 		return message;
 	}
-
+	
+	/**
+	 * 클라이언트로 보내는 메시지(다른 사용자가 입력한 메시지)
+	 * 
+	 * @param packet - 패킷 바이트배열
+	 * @return - 파싱된 메시지
+	 */
+	public String resiveFromClient(byte[] packet) {
+		System.out.println(ByteArrays.toHexString(packet, " "));
+		return null;
+	}
+	
 	/**
 	 * hex 코드를 바이트 배열로 변환한다.
 	 * 
@@ -384,5 +395,6 @@ public class PacketSniffing {
 		}
 		return data;
 	}
+
 
 }

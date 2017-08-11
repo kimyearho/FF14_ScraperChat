@@ -2,6 +2,7 @@ package com.nodestory.controller;
 
 import org.pcap4j.core.PcapHandle;
 import org.pcap4j.core.RawPacketListener;
+import org.pcap4j.util.ByteArrays;
 
 import com.nodestory.utils.PacketInstance;
 import com.nodestory.utils.PacketSniffing;
@@ -28,19 +29,19 @@ public class MainController {
 				// 네트워크 패킷 초기화
 				PacketInstance instance = new PacketInstance();
 				txtMsg.appendText("Network Connection ... Ready ... \n");
-				
+
 				// 패킷 핸들러 구현
 				PcapHandle handle = instance.packetInit();
-				
+
 				// 핸들러 연결여부
 				if (handle.isOpen()) {
-					
+
 					// 연결 성공 메시지
 					txtMsg.appendText("Network Connection Success..!\n\n");
-					
+
 					// 버튼 비활성화
 					btn_start.setDisable(true);
-					
+
 					try {
 
 						// 패킷 스니핑 클래스
@@ -58,6 +59,9 @@ public class MainController {
 									// 서버로 보낸 메시지(입력한 메시지)
 									String sendMsg = sniffing.sendFromServer(packet);
 									txtMsg.appendText(sendMsg);
+								} else if (packetSize == 1206) {
+									// 클라이언트로 보내는 메시지
+									String reciveMsg = sniffing.resiveFromClient(packet);
 								}
 
 							}
