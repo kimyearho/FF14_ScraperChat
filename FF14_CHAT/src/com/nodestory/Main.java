@@ -1,6 +1,5 @@
 package com.nodestory;
 
-import java.io.File;
 import java.io.IOException;
 
 import javafx.application.Application;
@@ -25,19 +24,8 @@ public class Main extends Application {
 
 	@FXML
 	public TextArea txtMsg;
-
-	static {
-
-		try {
-			System.load(new File("lib/jnetpcap.dll").getAbsolutePath());
-			System.out.println(new File("lib/jnetpcap.dll").getAbsolutePath());
-		} catch (Exception e) {
-			System.out.println("Native code library failed to load.\n" + e);
-			System.exit(1);
-		}
-
-	}
-
+	
+	// 메인 프레임 초기화
 	public void init() throws IOException {
 		fxmlLoader = new FXMLLoader(getClass().getResource("views/MainFrame.fxml"));
 		rootNode = fxmlLoader.load();
@@ -47,7 +35,8 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 
 		try {
-
+			
+			// 마우스 클릭 중 일때 ...
 			rootNode.setOnMousePressed(new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent event) {
@@ -55,6 +44,8 @@ public class Main extends Application {
 					yOffset = event.getSceneY();
 				}
 			});
+			
+			// 마우스를 드래그 중 일때 ...
 			rootNode.setOnMouseDragged(new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent event) {
@@ -62,8 +53,11 @@ public class Main extends Application {
 					primaryStage.setY(event.getScreenY() - yOffset);
 				}
 			});
-
+			
+			// 루트 씬
 			Scene scene = new Scene(rootNode);
+			
+			// 루트 스테이지 정보 세팅
 			primaryStage.initStyle(StageStyle.DECORATED);
 			primaryStage.setTitle("FINAL FANTASY XIV - Scraper Chat v0.1");
 			primaryStage.setScene(scene);
@@ -73,7 +67,7 @@ public class Main extends Application {
 			primaryStage.setAlwaysOnTop(true);
 			primaryStage.show();
 
-			// Stage 종료 이벤트
+			// 루트 스테이지 종료 이벤트
 			primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 				@Override
 				public void handle(WindowEvent event) {

@@ -1,17 +1,23 @@
 package com.nodestory.utils;
 
 import java.nio.charset.StandardCharsets;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.jnetpcap.packet.PcapPacket;
+import org.pcap4j.util.ByteArrays;
 
 import javafx.scene.control.TextArea;
 
 public class PacketSniffing {
 
 	public TextArea txtMsg;
-	
+
 	public PacketSniffing(TextArea txtMsg) {
 		this.txtMsg = txtMsg;
+	}
+
+	public PacketSniffing() {
 	}
 
 	/**
@@ -104,7 +110,7 @@ public class PacketSniffing {
 			// ´ëÈ­³»¿ëÀ» ¹ø¿ªÇÑ´Ù.
 			// ¹ø¿ª ±âº»¼³Á¤Àº ÀÏº»¾î -> ÇÑ±¹¾î ÀÌ¸ç, ÇÑ±¹¾î·Î ÀÔ·ÂµÇµµ ±×´ë·Î ÇÑ±¹¾î·Î Ãâ·ÂµÊ.
 			String chatMsg = GoogleTransAPI.jpTransMessage(fromSeverHexToClientMsg(packet));
-			
+
 			// ¼­¹ö¿¡¼­ Àü¼ÛÇÏ´Â ¹®ÀÚ¿¡ ÇÑ±ÛÀÌ³ª ¼ýÀÚ ¿µ¾î(´ë¼Ò¹®ÀÚ), ÁöÁ¤µÈ Æ¯¹®ÀÌ³ª °ø¹éÀÌ ÀÖ´ÂÁö¸¸
 			String reg = "[¤¡-¤¾|¤¿-¤Ó|°¡-ÆR|0-9|a-z|A-Z|\\s|!@#$%^&*()+-.]*";
 			if (chatMsg.matches(reg)) {
@@ -307,6 +313,60 @@ public class PacketSniffing {
 
 		return message;
 
+	}
+
+	/**
+	 * ¼­¹ö·Î º¸³»´Â ¸Þ½ÃÁö(»ç¿ëÀÚ°¡ ÀÔ·ÂÇÑ ¸Þ½ÃÁö)
+	 * 
+	 * @param packet - ÆÐÅ¶ ¹ÙÀÌÆ®¹è¿­
+	 * @return - ÆÄ½ÌµÈ ¸Þ½ÃÁö
+	 */
+	public String sendFromServer(byte[] packet) {
+
+		String message = null;
+		String c_Packet = ByteArrays.toHexString(packet, " ").replace(" ", "").replaceAll("00", "");
+
+		try {
+			
+			// ÆÐÅ¶À» UTF-8·Î º¯È¯ÇÏ¿© ¹®ÀÚ¿­·Î ¸®ÅÏ¹Þ´Â´Ù.
+			String msg = new String(packet, "UTF-8");
+			
+			// ÇÊ¿ä¾ø´Â ºÎºÐ ÆÄ½Ì
+			String parseMsg = msg.substring(msg.lastIndexOf("\\"), msg.length()).replace("\\", "").trim();
+			
+			// ÆÐÅÏ1: ÇÑ±Û,¿µ¹®,¼ýÀÚ,Æ¯¹®ÀÌ Æ÷ÇÔµÇ¾ú´ÂÁö Ã¼Å©ÇÑ´Ù.
+			Pattern p = Pattern.compile("(^[¤¡-¤¾|¤¿-¤Ó|°¡-ÆR|0-9|a-z|A-Z|\\s|!@#$%^&*()+-.]*$)");
+			Matcher m = p.matcher(parseMsg);
+			
+			// ÆÐÅÏ1 °Ë»ö
+			if (m.find()) {
+				// ÆÐÅÏ ¸ÅÄªÀÌ ¼º°ø Çß´Ù¸é
+				
+				// ÆÐÅÏ2: ¸ÅÄªÀÌ ¼º°øÇÑ ÆÐÅÏ ¹®ÀÚ¿­¿¡ ÇÑ±ÛÀÌ ¹Ýµå½Ã Æ÷ÇÔµÇ´ÂÁö Ã¼Å©
+				Pattern p1 = Pattern.compile(".*[¤¡-¤¾|¤¿-¤Ó|°¡-ÆR]");
+				Matcher m1 = p1.matcher(m.group());
+				if (m1.find()) {
+					// ÇÑ±ÛÀÌ ¹Ýµå½Ã Æ÷ÇÔµÈ´Ù¸é
+					
+					// ¸®ÅÏ ¹®ÀÚ´Â ÆÐÅÏ1 ¹®ÀÚ¿­À» ÁÖÀÔÇÑ´Ù.
+					// º¸³»´Â ¸Þ½ÃÁö°¡ ÆÄÆ¼¿Í ºÎ´ë ÆÐÅ¶ÀÌ µ¿ÀÏÇÏ¹Ç·Î ±âÁØÀ» Á¤ÇÑ´Ù.
+					if(c_Packet.indexOf("035c") > -1) {
+						// FC
+						message = "[ºÎ´ë]<Me> : " + m.group() + "\n";
+					} else {
+						// ÆÄÆ¼
+						message = "[ÆÄÆ¼]<Me> : " + m.group() + "\n";
+					}
+					
+				}
+
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return message;
 	}
 
 	/**
