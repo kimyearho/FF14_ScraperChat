@@ -5,6 +5,9 @@
 ![Imgur](http://i.imgur.com/mpDM9TW.png)
 ![Imgur](http://i.imgur.com/9KZky4h.jpg)
 
+## Information
+ * 현재 이 프로젝트는 마이그레이션 진행 중입니다.
+
 ## 기능정의:
 
  * FC 한글채팅 교환이 가능.
@@ -19,15 +22,6 @@
  * 장시간 실행 중일때 프로그램이 뻗는 버그가 있음. (외부 솔루션 이슈)
  * 불필요한 패킷이 입력되는 문제가 있는데, 최대한 잡아내고 있습니다.
  * 현재 개행이 안되는데, 기능을 곧 추가 예정입니다.
-
-<br/>
-
-## 설치
-
-1. [WinPacp 다운로드(필수)](https://www.winpcap.org/install/default.htm)
-2. [Scraper Chat 다운로드](https://github.com/kimyearho/FF14_ScraperChat/releases/tag/v0.1.1)
-3. 압축해제 후 scraper.exe로 설치하고, jnetpcap.dll을 c:\Windows/System32 위치로 복사
-4. java8
 
 <br/>
 
