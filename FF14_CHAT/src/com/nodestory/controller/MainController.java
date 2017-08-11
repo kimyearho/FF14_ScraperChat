@@ -2,7 +2,6 @@ package com.nodestory.controller;
 
 import org.pcap4j.core.PcapHandle;
 import org.pcap4j.core.RawPacketListener;
-import org.pcap4j.util.ByteArrays;
 
 import com.nodestory.utils.PacketInstance;
 import com.nodestory.utils.PacketSniffing;
@@ -46,14 +45,14 @@ public class MainController {
 
 						// 패킷 스니핑 클래스
 						PacketSniffing sniffing = new PacketSniffing();
-
+						
 						// 패킷 리스너
 						RawPacketListener listener = new RawPacketListener() {
 							@Override
 							public void gotPacket(byte[] packet) {
 								// 패킷 사이즈
 								int packetSize = packet.length;
-
+								
 								// 서버로 보내는 패킷
 								if (packetSize == 1158) {
 									// 서버로 보낸 메시지(입력한 메시지)
@@ -66,7 +65,7 @@ public class MainController {
 
 							}
 						};
-
+						
 						handle.loop(-1, listener);
 						handle.close();
 
